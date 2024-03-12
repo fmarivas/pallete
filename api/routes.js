@@ -57,32 +57,29 @@ router.get("/colorwheel", (req, res) => {
 
 // Manipulador de rota para a rota /palette/:combinationID
 router.get("/palette/:combinationID", async (req, res) => {
-    // const combinationID = req.params.combinationID;
-    // let color_client = req.query.type;
+    const combinationID = req.params.combinationID;
+    let color_client = req.query.color;
 	
     // Verifica se a combinação é suportada
-    // if (!combinationID.includes(combinationID)) {
-        // return res.status(400).json({ error: 'Combinação não suportada.' });
-    // }
+    if (!combinationID.includes(combinationID)) {
+        return res.status(400).json({ error: 'Combinação não suportada.' });
+    }
 	
-	// let color = tinycolor(color_client)
+	let color = tinycolor(color_client)
 	
-	// if(color.getFormat() === "name"){
-		// color_client = color.toHex()
+	if(color.getFormat() === "name"){
+		color_client = color.toHex()
 		
-	// }
+	}
+	
+	const combination = palette.generateCombinationByType(color_client, combinationID);
+	
+	if (combination) {
+		res.json({ [combinationID]: combination });
+	} else {
+		res.status(400).json({ error: 'Erro ao gerar a combinação.' });
+	}
 
-    // Verifica se a cor fornecida é válida
-    // if ((isValidHex(color_client)) || (color_client.includes(',') && isValidRGB(...color_client.split(',')))) {
-        // const combination = generateCombinationByType(color_client, combinationID);
-        // if (combination) {
-            // res.json({ [combinationID]: combination });
-        // } else {
-            // res.status(400).json({ error: 'Erro ao gerar a combinação.' });
-        // }
-    // } else {
-        // res.status(400).json({ error: 'A cor fornecida é inválida.' });
-    // }
 });
 
 module.exports = router

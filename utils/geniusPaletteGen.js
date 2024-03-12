@@ -138,13 +138,12 @@ class paletteGen {
         const combination = [
             "monochromatic",
             "complementary",
-            "Triadic",
-            "Analogous",
-            "Split-Complementary",
-            "Tetradic (Double-Complementary)",
-            "Square",
+            "triad",
+            "analogous",
+            "splitComplementary",
+            "tetrad",
+            "square",
         ];
-
         return combination;
     }
 	static colorPallete(){
@@ -379,7 +378,48 @@ class paletteGen {
 		});
 
 		return canvas.toBuffer();
-	}	
+	}
+	
+	// Função para gerar a combinação correspondente com base no ID fornecido
+	static generateCombinationByType(color_client, combinationID) {
+		// Verifica se a cor fornecida é válida
+		if ((isValidHex(color_client)) || isValidRGB(...color_client.split(','))) {
+			let rgbColor;
+			let color; 
+			if (isValidHex(color_client)) {
+				// Formata como #RRGGBB se for hexadecimal
+				color = `#${color_client}`; 
+				// Converte de hex to RGB
+				rgbColor = hexToRgb(color);
+			} else {
+				const [r, g, b] = color_client.split(',').map(Number);
+				// Formata o RGB
+				rgbColor = { r, g, b };
+			}
+
+			switch (combinationID) {
+				case 'monochromatic':
+					return paletteGen.monochromaticColors(rgbColor);
+				case 'complementary':
+					return paletteGen.complementaryColors(rgbColor);
+				case 'triad':
+					return paletteGen.triadicColors(rgbColor);
+				case 'analogous':
+					return paletteGen.analogousColors(rgbColor);
+				case 'splitComplementary':
+					return paletteGen.splitComplementaryColors(rgbColor);
+				case 'tetrad':
+					return paletteGen.tetradicColors(rgbColor);
+				case 'square':
+					return paletteGen.squareColors(rgbColor);
+				default:
+					return null; // Combinação não suportada
+			}
+		} else {
+			return { error: 'A cor fornecida é inválida.' };
+		}			
+	}
+	
 }
 
 module.exports = paletteGen;
