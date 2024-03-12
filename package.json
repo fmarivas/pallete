@@ -10,7 +10,7 @@
   "main": "geniuspalette.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node geniuspalette.js"
+    "start": "node geniuspalette.js",
 	"test": "node geniuspalette.js"
   },
   "author": "fmarivas",
