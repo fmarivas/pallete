@@ -416,7 +416,7 @@ function generateColorWheel(colors, color_type) {
     return canvas.toBuffer();
 }
 
-function generateCombination(color_client, res){
+function generateCombination(color_client){
 	
     if ((isValidHex(color_client)) || (color_client.includes(',') && isValidRGB(...color_client.split(',')))) {
         // Se a entrada for válida, continue com o processamento normal
@@ -464,7 +464,7 @@ function generateCombination(color_client, res){
             // rectangle: rectangleColors(rgbColor),
 		};
     } else {
-		res.status(400).json({ error: 'A cor fornecida é inválida.' });			
+		return { error: 'A cor fornecida é inválida.' };
     }		
 }
 
