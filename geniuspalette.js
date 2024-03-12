@@ -112,10 +112,10 @@ function rgbToHsv(rgbColor) {
     }
 
     // Calcular o valor (value)
-    const v = max;
+    const v = max * 100;
 
-    // Retornar a cor no formato HSV
-    return `hsv(${h.toFixed(0)}, ${s.toFixed(2) * 100}%, ${v.toFixed(2) * 100}%)`;
+    // Retornar a cor no formato RGB
+    return `rgb(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(v)}%)`;
 }
 
 // Função para converter a cor RGB para HEX
