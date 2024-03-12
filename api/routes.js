@@ -36,23 +36,23 @@ router.get("/palette", async (req, res) => {
 
 // Rota da roda de cores
 router.get("/colorwheel", (req, res) => {
-    // const color_type = req.query.type;
-    // const format = req.query.format || "png";
-	// const colors = [];
+    const color_type = req.query.type;
+    const format = req.query.format || "png";
+	const colors = [];
+	
+	const Colors = palette.colorPallete()
+	
+    if (color_type === "RGB" || color_type === "HSL" || color_type === "HSV" || color_type === "HEX") {
+        for (let i = 0; i < Colors.length; i++) {
+            const color = Colors[i];
+            const label = palette.getColorLabel(color, color_type);
+            colors.push({ color, label });
+        }
 
-
-    // if (color_type === "RGB" || color_type === "HSL" || color_type === "HSV" || color_type === "HEX") {
-        // for (let i = 0; i < Colors.length; i++) {
-            // const color = Colors[i];
-            // const label = getColorLabel(color, color_type);
-            // colors.push({ color, label });
-        // }
-
-        // res.type(format).send(generateColorWheel(colors));
-		// res.json(colors)
-    // } else {
-        // res.status(400).json({ error: "Tipo de cor inválido. Os tipos suportados são RGB, HSL, HSV e HEX." });
-    // }
+        res.type(format).send(palette.generateColorWheel(colors));
+    } else {
+        res.status(400).json({ error: "Tipo de cor inválido. Os tipos suportados são RGB, HSL, HSV e HEX." });
+    }
 });
 
 // Manipulador de rota para a rota /palette/:combinationID
