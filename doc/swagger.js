@@ -9,18 +9,21 @@ const swaggerOptions = {
     info: {
       title: "genius pallete",
       version: "1.0.0",
-      description: "Documentação da NutriAPI",
+      description: "Documentação da GENIUSPALETTE",
     },
     servers: [
+      // {
+        // url: process.env.SWAGGER_BASE_URL || "http://localhost:3000",
+        // description: "Servidor de Desenvolvimento",
+      // },
       {
-        url: process.env.SWAGGER_BASE_URL || "http://localhost:3000",
-        description: "Servidor de Desenvolvimento",
+        url: process.env.PRODUCTION_BASE_URL || "http://localhost:3000",
+        description: "Servidor de Produção",
       },
     ],
   },
   apis: ["./api/routes.js"], // Caminho para os arquivos contendo as rotas do seu API
 };
-
 
 const specs = swaggerJSDoc(swaggerOptions);
 

@@ -109,6 +109,11 @@ router.get("/schemes", (req, res)=>{
 router.get("/palette", async (req, res) => { 
     let color_client = req.query.color; // Cor fornecida pelo usuário
 	
+    // Verifica se a cor foi fornecida na requisição
+    if (!color_client) {
+        return res.status(400).json({ error: 'Cor não fornecida. Certifique-se de passar a cor como um parâmetro na URL.' });
+    }
+	
 	let color = tinycolor(color_client)
 	
 	if(color.getFormat() === "name"){

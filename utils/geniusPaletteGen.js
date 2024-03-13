@@ -312,7 +312,7 @@ class paletteGen {
 	}
 	
     static generateCombination(color_client) {
-        if ((isValidHex(color_client)) || isValidRGB(...color_client.split(','))) {
+        if (isValidHex(color_client) || (typeof color_client === 'string' && isValidRGB(...color_client.split(',')))) {
             // Se a entrada for válida, continue com o processamento normal
             let color;
             let rgbColor;
@@ -383,7 +383,7 @@ class paletteGen {
 	// Função para gerar a combinação correspondente com base no ID fornecido
 	static generateCombinationByType(color_client, combinationID) {
 		// Verifica se a cor fornecida é válida
-		if ((isValidHex(color_client)) || isValidRGB(...color_client.split(','))) {
+		if (isValidHex(color_client) || (typeof color_client === 'string' && isValidRGB(...color_client.split(',')))) {
 			let rgbColor;
 			let color; 
 			if (isValidHex(color_client)) {
