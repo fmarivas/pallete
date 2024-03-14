@@ -1,6 +1,7 @@
 const { createCanvas } = require('canvas');
 const express = require('express');
 const tinycolor = require('tinycolor2');
+const getImageColors = require('get-image-colors')
 
 //Funcoes auxiliares
 // Função para validar se a cor é hexadecimal
@@ -338,7 +339,7 @@ class paletteGen {
                 square: paletteGen.squareColors(rgbColor),
             };
         } else {
-            return { error: 'A cor fornecida é inválida.' };
+            return { error: 'The provided color is invalid.' };
         }
     }
 		
@@ -416,10 +417,24 @@ class paletteGen {
 					return null; // Combinação não suportada
 			}
 		} else {
-			return { error: 'A cor fornecida é inválida.' };
+			return { error: 'The provided color is invalid.' };
 		}			
 	}
+
+	static async imageColorExtrator(imgUrl){
+		
+		try{
+			const colors = await getImageColors(imgUrl);
+			const hexValue = colors.map(color => tinycolor(`rgba(${color._rgb[0]}, ${color._rgb[1]}, ${color._rgb[2]}, ${color._rgb[3]})`).toHexString());
+			return hexValue;
+		}catch(error){
+			console.error(error)
+			throw new Error("Internal Server Error")
+		}
+	}
+
 	
 }
+
 
 module.exports = paletteGen;

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const tinycolor = require("tinycolor2");
 const palette = require('../utils/geniusPaletteGen')
+const getImageColors = require('get-image-colors')
 
 router.get('/', (req , res) =>{
 	res.send("Welcome to your color palettes app!");
@@ -240,5 +241,74 @@ router.get("/palette/:combinationID", async (req, res) => {
 	}
 
 });
+
+/**
+ * @swagger
+ * /extract-colors:
+ *   post:
+ *     summary: Extract colors from an image
+ *     description: Extracts the colors present in the provided image and returns them in hexadecimal format.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               imgUrl:
+ *                 type: string
+ *                 description: URL of the image from which to extract colors
+ *     responses:
+ *       '200':
+ *         description: Colors extracted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 format: color
+ *                 example: "#ffffff"
+ *       '400':
+ *         description: Bad request. Image URL is missing or invalid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Image URL is required"
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "Internal Server Error"
+ */
+router.post('/extract-colors', async (req, res) =>{
+    const imgUrl = req.body.imgUrl;
+    
+    if(!imgUrl){
+        return res.status(400).json({error: 'Image URL is required'})
+    }
+    
+    try{
+        const paletteExtractor = await palette.imageColorExtrator(imgUrl)
+        
+        res.json(paletteExtractor)
+    }catch(error){
+        console.error(error)
+        throw res.status(500).json({error: "Error while extracting colors from image"})
+    }
+});
+
+
 
 module.exports = router

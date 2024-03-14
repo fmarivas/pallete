@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="teste.js"></script>
+    <title>Seu Aplicativo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Incluir outros arquivos CSS ou scripts aqui, se necessário -->
+</head>
+<body>
+    <style>
+        .color-box {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid black;
+            display: inline-block;
+        }
+    </style>
+	
+	<div id="colors-container"></div>
+	
+ <script>
+	// Cores retornadas da API
+	const colors = [
+    "#1d555a",
+    "#be9588",
+    "#48a5c9",
+    "#5bc6e4",
+    "#3191a0"
+]
+
+	// Container para as divs de cores
+	const colorsContainer = document.getElementById("colors-container");
+
+	// Aplica as cores de fundo às divs
+	colors.forEach(color => {
+		const colorBox = document.createElement("div");
+		colorBox.className = "color-box";
+		colorBox.style.backgroundColor = color;
+		colorsContainer.appendChild(colorBox);
+	});
+</script>	
+</body>
+</html>
